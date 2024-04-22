@@ -23,7 +23,7 @@ def root():
     
 
 # STORE A NEW TASK INTO DB
-@app.post("/items", response_model=list[Task])
+@app.post("/items", response_model=Task)
 def create_item(task: Task):
 
     con = sqlite3.connect("tasks.db")
@@ -35,6 +35,8 @@ def create_item(task: Task):
     cur.execute(f"INSERT into tasks VALUES ({task_name},{task_status})")
     con.commit()
     cur.close()
+
+    return task
 
 # VIEW ALL TASKS IN THE DB
 @app.get("/itemsall", response_model=list[Task])
