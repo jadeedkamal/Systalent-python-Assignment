@@ -4,8 +4,6 @@ import sqlite3
 
 app = FastAPI()
 
-tasks = []
-
 class Task(BaseModel):
     title: str = None
     is_done : bool = False
@@ -37,8 +35,6 @@ def create_item(task: Task):
     cur.execute(f"INSERT into tasks VALUES ({task_name},{task_status})")
     con.commit()
     cur.close()
-    tasks.append(task)
-    return {tasks}
 
 # VIEW ALL TASKS IN THE DB
 @app.get("/itemsall", response_model=list[Task])
