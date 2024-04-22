@@ -75,24 +75,3 @@ def get_item(item_id: int) -> Task:
 
     else:
         raise HTTPException(status_code=404, detail="task Not Found")
-
-# MARK A SPECIFIC TASK AS DONE IN DB
-
-@app.get("/items/{task_id}", response_model=Task)
-def get_item(item_id: int) -> Task:
-
-    con = sqlite3.connect("tasks.db")
-    cur = con.cursor()
-
-    store = cur.execute("SELECT * from tasks").fetchall()
-    cur.close()
-
-    if item_id < len(store):
-        task = Task()
-        
-        task.title = store[0][0]
-        task.is_done = store[0][1]
-        return task
-
-    else:
-        raise HTTPException(status_code=404, detail="task Not Found")
